@@ -1,0 +1,207 @@
+<div class="container">
+   <div class="row topRow">
+      <div class="col-lg-6">
+         <label for="office">Офис:</label> <select id="office"  ng-model="selectedOffice" ng-change="getId()"
+                       ng-options="office as office.name for office in offices"></select>
+      </div><!-- /.col-lg-6 -->
+      <div class="col-lg-6">
+         <span class="pull-right"><label for="budget">Бюджет до:</label>
+            <input id="budget" type="text" name="budget" ng-model="tour.budget"/>
+         </span>
+      </div><!-- /.col-lg-6 -->
+   </div><!-- /.row -->
+
+   <div class="row topRow">
+      <div class="col-lg-4">
+         <button type="button" class="btn btn-primary">
+         Номер договора: {{tour.id}}
+         </button>
+      </div>
+      <div class="col-lg-8">
+         <div class="form-inline pull-right">
+            <div class="form-group">
+               <label for="nightsFrom">срок поездки от:</label>
+               <input type="number" id="nightsFrom" ng-model="tour.minNights" min="1" max="365">
+            </div>
+            <div class="form-group">
+               <label for="nightsTo">до:</label>
+               <input type="number" id="nightsTo" ng-model="tour.maxNights" min="1" max="365">
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="row topRow">
+      <div class="col-lg-2">
+         <button type="button" class="btn btn-primary">Дата начала тура:</button>
+      </div>
+      <div class="col-lg-4">
+      <p class="input-group">
+         <input type="text" class="form-control" datepicker-popup="{{date.format}}"
+                ng-model="tour.start" is-open="date.startOpened" min-date="date.minDate"
+                max-date="date.maxDate" datepicker-options="date.dateOptions"
+                close-text="Close" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="date.openStart($event)">
+                   <i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+      </p>
+   </div>
+
+   <div class="col-lg-4">
+      <p class="input-group">
+         <input type="text" class="form-control" datepicker-popup="{{date.format}}"
+                ng-model="tour.finish" is-open="date.finishOpened" min-date="date.minDate"
+                max-date="date.maxDate" datepicker-options="date.dateOptions"
+                close-text="Close" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="date.openFinish($event)">
+                   <i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+      </p>
+
+   </div>
+   </div>
+
+   <h4>Менеджеры по туру</h4>
+   <table class="table table-bordered tableFon">
+      <thead>
+      <tr>
+         <th>фио</th>
+         <th>процент</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="manager in managers" ng-if="manager.isSelected">
+         <td>{{manager.fio}}</td>
+         <td>{{manager.zp_procent}}</td>
+      </tr>
+      </tbody>
+   </table>
+   <div class="col-lg-12 text-center">
+      <button type="button" popover-template="dynamicPopover.templateUrl"
+              popover-title="добавить менеджера"
+              class="btn btn-primary">
+         добавить менеджера
+      </button>
+   </div>
+
+   <h4>Заказчик</h4>
+   <div class="row topRow">
+      <div class="col-lg-12">
+         <div class="form-inline">
+            <div class="form-group">
+               <label for="client">Имя:</label>
+               <input class="form-control" type="text" id="client" ng-model="tour.client.name">
+            </div>
+            <div class="form-group">
+               <label for="email">E-mail:</label>
+               <input class="form-control" type="email" id="email" ng-model="tour.client.email">
+            </div>
+            <div class="form-group">
+               <label for="phone">Телефон:</label>
+               <input class="form-control" type="text" id="phone" ng-model="tour.client.phone">
+            </div>
+            <button type="button" class="btn btn-primary">Достать историю</button>
+         </div>
+      </div>
+   </div>
+
+   <h4>Туристы</h4>
+   <div class="form-horizontal" id="touristInput">
+      <div class="form-group" ng-repeat="tourist in touristsIndex">
+         <div class="col-lg-6">
+            <input type="text" class="form-control" ng-model="tourist.name">
+         </div>
+         <button type="button" class="btn btn-primary" ng-model="tourist.index" ng-click="addButton(tourist)">+</button>
+         <button type="button" class="btn btn-primary" ng-model="tourist.index" ng-click="delButton(tourist.index)">-</button>
+      </div>
+   </div>
+
+   <h4>Страна пребывания, курорт</h4>
+   <textarea class="form-control" rows="4" ng-model="tour.description"></textarea>
+
+   <div class="row topRow">
+      <div class="col-lg-12">
+         <div class="form-inline">
+            <div class="form-group">
+               <label for="client">Оператор:</label>
+               <select id="operator" ng-model="tour.selectedOperator"
+                       ng-options="operator as operator.name for operator in operators"></select>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="row topRow">
+      <div class="col-lg-12">
+         <div class="form-inline">
+            <div class="form-group">
+               <label for="client">Статус:</label>
+               <select id="status" ng-model="tour.status"
+                       ng-options="status for status in statuses"></select>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="row topRow">
+      <div class="col-lg-1">
+         <button type="button" class="btn btn-primary">ДСД:</button>
+      </div>
+      <div class="col-lg-4">
+         <p class="input-group">
+            <input type="text" class="form-control" datepicker-popup="{{date.format}}"
+                   ng-model="tour.nextActionDate" is-open="date.nextActionOpened" min-date="date.minDate"
+                   max-date="date.maxDate" datepicker-options="date.dateOptions"
+                   close-text="Close" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="date.openNextAction($event)">
+                   <i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+         </p>
+      </div>
+   </div>
+
+   <h4>Откуда пришел клиент </h4>
+   <input type="text" class="form-control" ng-model="tour.from">
+   <h4>Описание след. действия</h4>
+   <textarea class="form-control" rows="4" ng-model="tour.nextAction"></textarea>
+
+   <div class="btn-group col-lg-12 topRow" role="group ">
+      <button type="button" class="btn btn-primary btnG" ng-click="saveTour()">Сохранить</button>
+      <button type="button" class="btn btn-primary btnG">Отменить</button>
+      <button type="button" class="btn btn-primary btnG" ng-click="close()">Закрыть</button>
+      <button type="button" class="btn btn-primary btnG">Сгенерировать договор</button>
+      <button type="button" class="btn btn-primary btnG">Печать</button>
+   </div>
+
+</div>
+
+</div>
+
+<script type="text/ng-template" id="myPopoverTemplate.html">
+   <table class="table table-bordered tableFon">
+      <thead>
+      <tr>
+         <th>фио</th>
+         <th>процент</th>
+         <th>выбрать</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="manager in managers">
+         <td>{{manager.fio}}</td>
+         <td><input type="number" ng-model="manager.zp_procent"
+                    ></td> <!--ng-change="tour.recalculatePercent(manager)"-->
+         <td><input type="checkbox" ng-model="manager.isSelected"
+                    ng-change="tour.setPercent(manager)"></td>
+      </tr>
+      </tbody>
+   </table>
+   </div>
+</script>
+
+
+
+

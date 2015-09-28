@@ -1,0 +1,61 @@
+
+<div ng-controller="newOrderController">
+<div class="container">
+    <div class="jumbotron" ng-if="isNewTour || isEdit">
+        <div>
+            <tabset>
+                <tab ng-repeat="tab in tabs" heading="{{ tab.heading }}" active="tab.active" disabled="tab.disabled">
+                    <div ng-include="tab.template"></div>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+    <div class="newOrdersList" ng-if="!isNewTour && !isEdit">
+        <div class="btn-group col-lg-12 topRow" role="group ">
+            <button type="button" class="btn btn-primary btnG" ng-click="newOrder()">Новый ПЗ</button>
+            <button type="button" class="btn btn-primary btnG">Отменить</button>
+            <button type="button" class="btn btn-primary btnG">Сгенерировать договор</button>
+            <button type="button" class="btn btn-primary btnG">Печать</button>
+        </div>
+        <br>
+        <table class="table table-bordered tableFon tableOrders topRow">
+            <thead>
+            <tr>
+                <th>Номер договора</th>
+                <th>Заказчик</th>
+                <th>Телефоны</th>
+                <th>ДСД</th>
+                <th>ОСД</th>
+                <th>Начало тура</th>
+                <th>Туристы</th>
+                <th>Страна</th>
+                <th>Сообщения</th>
+                <th>Откуда пришел клиент</th>
+                <th>Создана (менеджер)</th>
+                <th>Создана (дата)</th>
+                <th>Статус</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="tour in tours" ng-click="options.openOrder(tour.id)">
+                <td>{{tour.id}}</td>
+                <td>{{tour.client.name}}</td>
+                <td>{{tour.client.phone}}</td>
+                <td>{{tour.nextActionDate | date : 'shortDate'}}</td>
+                <td>{{tour.nextAction}}</td>
+                <td>{{tour.start | date : 'shortDate'}}-
+                    {{tour.finish | date : 'shortDate'}}</td>
+                <td>{{tour.tourists?tour.tourists.length:''}}</td>
+                <td>{{tour.description}}</td>
+                <td>{{tour.tourMessages?tour.tourMessages.length:''}}</td>
+                <td>{{tour.from}}</td>
+                <td>{{tour.creator.fio}}</td>
+                <td>{{tour.created | date : 'shortDate'}}</td>
+                <td>{{tour.status}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>

@@ -1,0 +1,87 @@
+<div class="container">
+    <div class="row topRow">
+    <div class="btn-group col-lg-12" role="group">
+        <button type="button" class="btn btn-primary btnG" ng-click="addTourVariant()">Сохранить</button>
+        <button type="button" class="btn btn-primary btnG" ng-click="close()">Отменить</button>
+        <button type="button" class="btn btn-primary btnG">Сгенерировать договор</button>
+        <button type="button" class="btn btn-primary btnG">Печать</button>
+    </div>
+    </div>
+    <div class="row topRow">
+        <div class="col-lg-2">
+            <button class="btn btn-primary pull-right customBtn1">Дата:</button>
+        </div>
+        <div class="col-lg-4">
+            <p class="input-group">
+                <input type="text" class="form-control" datepicker-popup="{{date.format}}"
+                       ng-model="tourVariant.start" is-open="date.startOpened" min-date="date.minDate"
+                       max-date="date.maxDate" datepicker-options="date.dateOptions"
+                       close-text="Close" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="date.openStart($event)">
+                    <i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">
+            <button type="button" class="btn btn-primary pull-right customBtn1">Название отеля:</button>
+        </div>
+        <div class="col-lg-8">
+            <input class="form-control" type="text"  ng-model="tourVariant.hotel">
+        </div>
+    </div>
+    <div class="row topRow">
+        <div class="col-lg-2">
+            <button type="button" class="btn btn-primary pull-right customBtn1">Длительность:</button>
+        </div>
+        <div class="col-lg-1">
+            <input class="form-control" type="number" min="1" max="365"
+                   ng-model="tourVariant.tourNights">
+        </div>
+    </div>
+    <div class="row topRow">
+        <div class="col-lg-2">
+            <button type="button" class="btn btn-primary pull-right customBtn1">Цена:</button>
+        </div>
+        <div class="col-lg-4">
+            <input class="form-control" type="text" ng-model="tourVariant.price">
+        </div>
+    </div>
+    <div class="row topRow">
+        <div class="col-lg-2">
+            <button type="button" class="btn btn-primary pull-right customBtn1">Примечание:</button>
+        </div>
+        <div class="col-lg-8">
+            <input class="form-control" type="text" ng-model="tourVariant.comment">
+        </div>
+    </div>
+    <div class="row topRow">
+        <div class="col-lg-2">
+            <button type="button" class="btn btn-primary pull-right customBtn1">Примечание для TA:</button>
+        </div>
+        <div class="col-lg-8">
+            <input class="form-control" type="text" ng-model="tourVariant.innerComment">
+        </div>
+    </div>
+    <table class="table table-bordered tableFon tableOrders topRow">
+        <thead>
+        <tr>
+            <th>Название отеля</th>
+            <th>Дата начала</th>
+            <th>Длительность</th>
+            <th>Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="variant in tour.tourVariants">
+            <td>{{variant.hotel}}</td>
+            <td>{{variant.start | date : 'shortDate'}}</td>
+            <td>{{variant.tourNights}}</td>
+            <td>{{variant.price}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+

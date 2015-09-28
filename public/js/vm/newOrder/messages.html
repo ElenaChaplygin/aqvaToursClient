@@ -1,0 +1,109 @@
+<div class="container">
+    <div class="row topRow">
+        <div class="form-inline">
+            <div class="form-group col-lg-2">
+                <input type="checkbox" ng-model="messageForm.isTask">
+                <b>Задание</b>
+            </div>
+            <div class="form-group col-lg-4 inputMsg" ng-if="messageForm.isTask">
+                <label for="task">Привязать к заданию:</label>
+                <select id="task"  ng-model="messageForm.task" ng-change="changeTask()"
+                        ng-options="task as task.name for task in messageForm.tasks"></select>
+            </div>
+            <div class="form-group col-lg-5 inputMsg" ng-if="messageForm.task.id == 0">
+                <label for="taskName">Название задания:</label>
+                <input id="taskName" type="text" ng-model="messageForm.newTask">
+                <button ng-click="addNewTask()">+</button>
+            </div>
+        </div>
+    </div>
+    <div class="row topRow">
+        <div class="input-group">
+            <div class="input-group-addon">Для кого:</div>
+            <div class="form-control" id="addressRow" ng-bind="toManagers"></div>
+            <div class="input-group-addon">
+                <button popover-template="dynamicPopover.templateUrlMessage"
+                        popover-placement="left" popover-title="добавить менеджера">+</button>
+            </div>
+        </div>
+    </div>
+
+    <h4>Описание</h4>
+    <textarea class="form-control" rows="6" ng-model="messageForm.messageText"></textarea>
+    <div class="row topRow col-lg-12 messageInput">
+        <div class="form-inline">
+            <div class="form-group col-lg-6" ng-if="messageForm.isTask">
+                <label for="taskStatus">Статус:</label> <select id="taskStatus"
+                          ng-model="messageForm.taskStatus"
+                          ng-options="status for status in messageForm.taskStatuses"></select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row topRow col-lg-12 messageInput">
+        <div class="col-lg-1">
+            <label  for="dueDate" style="margin-top: 10px">Исполнить:</label>
+        </div>
+        <div class="col-lg-4" style="margin-left: 5px">
+            <p class="input-group">
+                <input id="dueDate" type="text" class="form-control" datepicker-popup="{{date.format}}"
+                       ng-model="messageForm.dueDate" is-open="date.startOpened" min-date="date.minDate"
+                       max-date="date.maxDate" datepicker-options="date.dateOptions"
+                       close-text="Close" />
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="date.openStart($event)">
+                    <i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="row col-lg-12 topRow text-center">
+        <button type="button" class="btn btn-primary" style="width: 150px" ng-click="addMessageToTour()">
+            добавить
+        </button>
+    </div>
+
+    <div class="row topRow col-lg-12">
+        <table class="table table-bordered tableFon">
+            <thead>
+            <tr>
+                <th class="tableHeader">автор</th>
+                <th class="tableHeader">адресат</th>
+                <th class="tableHeader">тип</th>
+                <th class="tableHeader col-md-1">исполнить</th>
+                <th class="col-md-4 tableHeader">описание</th>
+                <th class="tableHeader">статус</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-if="messageForm.isTask" ng-repeat="message in selectedTaskMessages">
+                <td class="tableHeader">{{message.creator.fio}}</td>
+                <td class="tableHeader">{{getAddressee(message.addresses)}}</td>
+                <td class="tableHeader">'задание'</td>
+                <td class="tableHeader">{{message.dueDate | date : 'shortDate'}}</td>
+                <td class="tableHeader">{{message.messageText}}</td>
+                <td class="tableHeader">{{message.status}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/ng-template" id="messageTemplate.html">
+    <table class="table table-bordered tableFon">
+        <thead>
+        <tr>
+            <th>фио</th>
+            <th>выбрать</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="manager in managers">
+            <td>{{manager.fio}}</td>
+            <td><input type="checkbox" ng-model="manager.selectedForMsg" ng-change="addManagerToMsg(manager)"></td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+</script>
